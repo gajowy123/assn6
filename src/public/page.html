@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      // When DOM is loaded this
+      // function will get executed
+      $(() => {
+        // function will get executed
+        // on click of submit button
+        $("#submitSearch").click(function (ev) {
+          let form = $("#formid1");
+          //let url = form.attr("action");
+          $.ajax({
+            type: "POST",
+            url: "/formsearch",
+            contentType: "application/json",
+            data: JSON.stringify({ names: $("#names").val() }),
+            success: function (data) {
+              console.log(`recieved ${data}`);
+              var result = "<ul>";
+              $.each(data, function (index, item) {
+                console.log(item);
+                result += `<li>${item["title"]} ${item["firstname"]} ${item["surname"]}</li>`;
+              });
+              result += "</ul>";
+              $("#userList").html(result);
+            },
+            error: function (data) {
+              // Some error in ajax call
+              alert("some Error");
+            },
+          });
+        });
+        $("#submitCreate").click(function(ev){
+            let form = $("#formid2");
+            let url = form.attr("action");
+            $.ajax({
+                type: "POST",
+                url: "/formcreate",
+                contentType: "application/json",
+                data: JSON.stringify({ 
+                    title: $("#titlec").val(),
+                    eircode: $("#eircodec").val(),
+                    firstname: $("#fnamec ").val(),
+                    surname: $("#lnamec").val(),
+                    mobile: $("#mobilec").val(),
+                    email: $("#emailc").val(),
+                    line1: $("#addr1c").val(),
+                    line2: $("#addr2c").val(),
+                    town: $("#townc").val(),
+                    county: $("#countyc").val()
+                }),
+                    success: function (data) {
+                        console.log(`recieved ${data}`);
+                        var res="";
+                        res+=data.ret;
+                        $("#notifc").html(res);
+                        
+                    },
+                    error: function (data) {
+                    // Some error in ajax call
+                        alert("some Error");
+            },
+          });
+        });
+        $("#submitUpdate").click(function(ev){
+            let form = $("#formid3");
+            let url = form.attr("action");
+            $.ajax({
+                type: "POST",
+                url: "/formupdate",
+                contentType: "application/json",
+                data: JSON.stringify({ 
+                    title: $("#titleu").val(),
+                    eircode: $("#eircodeu").val(),
+                    mobile: $("#mobileu").val(),
+                    email: $("#emailu").val(),
+                    line1: $("#addr1u").val(),
+                    town: $("#townu").val(),
+                    semail: $("#femailu").val()
+                }),
+                    success: function (data) {
+                        console.log(`recieved ${data}`);
+                        var res="";
+                        res+=data.ret;
+                        $("#notifu").html(res);
+                        
+                    },
+                    error: function (data) {
+                    // Some error in ajax call
+                        alert("some Error");
+            },
+          });
+        });
+      });
+
+    </script>
+    <style>
+        .main{
+            margin:auto;
+            width: 50%;
+            text-align: center;
+            justify-content: center;
+            border-radius: 15%;
+            border: solid 5px blue;
+            margin-bottom:5px;
+            
+        }
+    </style>
+  </head>
+<body>
+<span>
+<div class="main">
+    
+</div>
+<div class="main">
+
+    
+</div>
+</span>
+</body>
